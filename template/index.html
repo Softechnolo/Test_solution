@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fruit Recommendation</title>
+</head>
+<body>
+    <h1>Fruit Recommendation</h1>
+    <form id="fruit-form">
+        <label for="party">Do you go out to party on weekends? (yes/no):</label>
+        <input type="text" id="party" name="party" required><br>
+        
+        <label for="flavour">What flavours do you like? (e.g., sweet, sour, bitter):</label>
+        <input type="text" id="flavour" name="flavour" required><br>
+        
+        <label for="texture">What texture don't you like? (smooth, slimy, rough):</label>
+        <input type="text" id="texture" name="texture" required><br>
+        
+        <label for="price">What price range will you buy for? ($1, $2, $3, ... , $10):</label>
+        <input type="text" id="price" name="price" required><br>
+        
+        <button type="submit">Recommend Fruits</button>
+    </form>
+    <div id="result"></div>
+    <script>
+        const form = document.getElementById('fruit-form');
+        const resultDiv = document.getElementById('result');
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const formData = new FormData(form);
+            const answers = {};
+            for (const [key, value] of formData.entries()) {
+                answers[key] = value;
+            }
+
+            fetch('/recommend_fruits', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(answers)
+            })
+            .then(response => response.json())
+            .then(data => {
+                resultDiv.innerHTML = `Recommended fruits: ${data.join(', ')}`;
+            })
+            .catch(error => {
+                resultDiv.innerHTML = `Error: ${error}`;
+            });
+        });
+    </script>
+</body>
+</html>
