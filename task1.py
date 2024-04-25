@@ -6,6 +6,7 @@ from text_splitter import TextSplitter
 
 import os
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+
 #  this Load the text from the given docx file
 def load_text_from_docx(file_path):
     doc = Document(file_path)
@@ -37,7 +38,7 @@ def get_answer_from_gpt3(prompt):
 def user_query(query):
     text = load_text_from_docx("DataLaw.docx")
     chunks = split_text(text, the_splitter)
-    database = VectorDatabase(index_name="mohammed")  # Create the VectorDatabase instance here
+    database = VectorDatabase(index_name="mohd")  # Create the VectorDatabase instance here
     add_chunks_to_database(chunks, database)
     prompt = create_prompt(query, database)
     answer = get_answer_from_gpt3(prompt)

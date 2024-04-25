@@ -20,8 +20,7 @@ class VectorDatabase:
         else:
           raise e  # Re-raise other exceptions
 
-    # Directly return the created Pinecone Index object (best approach)
-    self.index = pc.Index(name=self.index_name)  # Pass name explicitly
+    self.index = pc.Index(index_name=self.index_name)
 
   def addData(self, id, vector):
     self.index.upsert(items={id: vector})
